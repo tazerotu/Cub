@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ttas <ttas@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 08:56:23 by ttas              #+#    #+#             */
-/*   Updated: 2025/09/09 09:45:42 by ttas             ###   ########.fr       */
+/*   Updated: 2025/10/09 14:33:04 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@
 # define ERROR_COLOR -1021
 # define ERROR_CLOSED -1041
 # define ERROR_CHARACTER -1042
+# define ERROR_MAP -1043
 
 // Struct
 typedef struct s_texture
@@ -38,12 +39,29 @@ typedef struct s_texture
 	char		*west;
 }	t_texture;
 
+typedef struct s_map
+{
+	int				line;
+	char			*map;
+	struct s_map	*prev;
+	struct s_map	*next;
+}	t_map;
+
+typedef struct s_pos
+{
+	int		x;
+	int		y;
+	char	dir;
+}	t_pos;
+
 typedef struct s_parse
 {
 	int			fd_map;
 	t_texture	*texture;
 	char		**map;
 	char		**floodfill;
+	t_map		*lst_map;
+	t_pos		pos_player;
 	int			color[2][3];	// [0] = floor, [1] = ceiling
 }	t_parse;
 
@@ -65,14 +83,23 @@ void	error_message(int code, char *msg);
 
 // Free
 void	free_parse(t_parse *parse);
+void	free_lst(t_map *lst_map);
 
 // Utils
 int		has_non_whitespace(const char *str);
+t_map	*ft_lstlast_map(t_map *lst_map);
+t_map	*ft_lstnew_map(char *map_line);
+void	ft_lst_addback_map(t_map **lst_map, t_map *new_map);
+int		lstmap_size(t_map *lst_map);
+void	find_player_pos(t_parse *parse);
+void	floodfill_check_closed(t_parse *parse, int x, int y);
 
 // Parse
 t_parse	*parse_args(int argc, char **argv, t_parse *parse);
 int		parse_texture(t_parse *parse);
 int		parse_color(t_parse *parse);
+int		parse_map(t_parse *parse);
+void	floodfill(t_parse *parse, int x, int y);
 
 // Parse Utils
 	// Texture

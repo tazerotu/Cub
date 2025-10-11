@@ -102,9 +102,7 @@ static char	*ft_read_file(int fd, char *res)
 		res = tmp;
 	}
 	free(buffer);
-	if (bytes_read == 0 && res && res[bytes_read] == '\0')
-		return (ft_free_join(NULL, res));
-	return (res);
+	return (gnl_return(bytes_read, res));
 }
 
 char	*get_next_line(int fd)
@@ -116,8 +114,13 @@ char	*get_next_line(int fd)
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
 	if (buffer == NULL)
-		buffer = ft_calloc(2, 1);
+		buffer = ft_calloc(1, 1);
 	tmp = ft_read_file(fd, buffer);
+	if (!tmp)
+	{
+		buffer = NULL;
+		return (NULL);
+	}
 	buffer = tmp;
 	line = ft_current_line(buffer);
 	tmp = ft_next_line(buffer);

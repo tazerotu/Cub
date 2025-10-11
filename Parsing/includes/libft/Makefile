@@ -63,6 +63,7 @@ SRC_STR =	./str/ft_strlcat.c \
 			./str/get_next_line_bonus.c \
 			./str/gnl_no_static.c \
 			./str/get_next_line.c \
+			./str/gnl_test.c \
 			
  
 SRC_TO = 	./to/ft_atoi.c \

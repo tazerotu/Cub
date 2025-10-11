@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 09:52:04 by ttas              #+#    #+#             */
-/*   Updated: 2025/09/08 19:52:34 by marvin           ###   ########.fr       */
+/*   Updated: 2025/10/06 11:14:45 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -487,6 +487,7 @@ t_list				*ft_lstmap(t_list *lst, void *(*f)(void *),
 char				*get_next_line(int fd);
 char				*get_next_line_bonus(int fd);
 char				*get_next_line_no_static(int fd, char **buffer);
+char				*gnl_return(int bytes_read, char *res);
 // char				*ft_free_join(char *s1, char *s2);
 // char				*ft_current_line(char *buffer);
 // char				*ft_read_file(int fd, char *res);

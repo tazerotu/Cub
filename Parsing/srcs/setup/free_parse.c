@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free_parse.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ttas <ttas@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 10:22:09 by ttas              #+#    #+#             */
-/*   Updated: 2025/09/09 09:32:39 by ttas             ###   ########.fr       */
+/*   Updated: 2025/10/09 14:50:15 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,8 +48,30 @@ void	free_parse_texture(t_texture *texture)
 	free(texture);
 }
 
+void	free_floodfill(char **floodfill)
+{
+	int	i;
+
+	i = -1;
+	while (floodfill[++i])
+		free(floodfill[i]);
+	free(floodfill);
+}
+
+void	free_map(char **map)
+{
+	int	i;
+
+	i = -1;
+	while (map[++i])
+		free(map[i]);
+	free(map);
+}
+
 void	free_parse(t_parse *parse)
 {
 	free_parse_texture(parse->texture);
+	free_floodfill(parse->floodfill);
+	free_map(parse->map);
 	free(parse);
 }
