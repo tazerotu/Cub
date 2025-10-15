@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   floodfill.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ttas <ttas@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/09 14:31:34 by marvin            #+#    #+#             */
-/*   Updated: 2025/10/09 14:39:27 by marvin           ###   ########.fr       */
+/*   Updated: 2025/10/15 11:25:47 by ttas             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,14 @@
 int	is_player_char(char c)
 {
 	return (c == 'N' || c == 'S' || c == 'E' || c == 'W');
+}
+
+t_parse	*set_player_pos(t_parse *parse, int x, int y, char dir)
+{
+	parse->pos_player.x = x;
+	parse->pos_player.y = y;
+	parse->pos_player.dir = dir;
+	return (parse);
 }
 
 void	find_player_pos(t_parse *parse)
@@ -33,10 +41,8 @@ void	find_player_pos(t_parse *parse)
 			if (is_player_char(parse->floodfill[y][x]))
 			{
 				if (found)
-					error_message(ERROR_CLOSED, "Multiple player positions found");
-				parse->pos_player.x = x;
-				parse->pos_player.y = y;
-				parse->pos_player.dir = parse->floodfill[y][x];
+					error_message(ERROR_CLOSED, "Multiple players found");
+				set_player_pos(parse, x, y, parse->floodfill[y][x]);
 				found = 1;
 			}
 			x++;
@@ -49,7 +55,8 @@ void	find_player_pos(t_parse *parse)
 
 void	floodfill_check_closed(t_parse *parse, int x, int y)
 {
-	if (x < 0 || y < 0 || !parse->floodfill[y] || x >= (int)ft_strlen(parse->floodfill[y]))
+	if (x < 0 || y < 0 || !parse->floodfill[y]
+		|| x >= (int)ft_strlen(parse->floodfill[y]))
 		error_message(ERROR_CLOSED, "Map not closed (out of bounds)");
 	if (parse->floodfill[y][x] == '1' || parse->floodfill[y][x] == 'F')
 		return ;
@@ -58,7 +65,6 @@ void	floodfill_check_closed(t_parse *parse, int x, int y)
 	if (parse->floodfill[y][x] == '0' || is_player_char(parse->floodfill[y][x]))
 	{
 		parse->floodfill[y][x] = 'F';
-		// Check all four directions
 		floodfill_check_closed(parse, x + 1, y);
 		floodfill_check_closed(parse, x - 1, y);
 		floodfill_check_closed(parse, x, y + 1);

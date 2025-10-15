@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ttas <ttas@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 09:15:21 by ttas              #+#    #+#             */
-/*   Updated: 2025/10/09 14:47:00 by marvin           ###   ########.fr       */
+/*   Updated: 2025/10/15 11:23:10 by ttas             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,11 +19,14 @@
 // printf("West texture: %s\n\n", parse->texture->west);
 //
 // Color
-// printf("Floor color: R=%d, G=%d, B=%d\n", parse->color[0][0], parse->color[0][1], parse->color[0][2]);
-// printf("Ceiling color: R=%d, G=%d, B=%d\n\n", parse->color[1][0], parse->color[1][1], parse->color[1][2]);
+// printf("Floor color: R=%d, G=%d, B=%d\n", parse->color[0][0],
+// parse->color[0][1], parse->color[0][2]);
+// printf("Ceiling color: R=%d, G=%d, B=%d\n\n", parse->color[1][0],
+// parse->color[1][1], parse->color[1][2]);
 //
 // Player position
-// printf("Player position: x=%d, y=%d, dir=%c\n\n", parse->pos_player.x, parse->pos_player.y, parse->pos_player.dir);
+// printf("Player position: x=%d, y=%d, dir=%c\n\n", parse->pos_player.x,
+// parse->pos_player.y, parse->pos_player.dir);
 //
 // Floodfill map
 // if (parse->floodfill)
@@ -37,6 +40,7 @@
 // 	}
 // }
 // printf("\n");
+
 int	main(int argc, char **argv)
 {
 	t_parse	*parse;

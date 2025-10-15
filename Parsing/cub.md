@@ -38,3 +38,4 @@ map :
 
     - if an error is found -> return : "Error\n" followed by an accurate error message (ex: Map isn't closed)
 
+https://github.com/mcombeau/cub3D

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   list.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ttas <ttas@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/30 08:53:21 by ttas              #+#    #+#             */
-/*   Updated: 2025/10/06 11:18:53 by marvin           ###   ########.fr       */
+/*   Updated: 2025/10/15 11:06:30 by ttas             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,11 +48,13 @@ t_map	*ft_lstnew_map(char *map_line)
 
 void	ft_lst_addback_map(t_map **lst_map, t_map *new_map)
 {
+	t_map	*last;
+
 	if (!new_map)
-		return;
+		return ;
 	if (*lst_map)
 	{
-		t_map *last = ft_lstlast_map(*lst_map);
+		last = ft_lstlast_map(*lst_map);
 		new_map->prev = last;
 		new_map->line = last->line + 1;
 		last->next = new_map;
@@ -63,7 +65,7 @@ void	ft_lst_addback_map(t_map **lst_map, t_map *new_map)
 
 void	free_lst(t_map *lst_map)
 {
-	t_map *tmp;
+	t_map	*tmp;
 
 	while (lst_map && lst_map->prev)
 		lst_map = lst_map->prev;

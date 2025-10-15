@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   map.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ttas <ttas@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 09:37:41 by ttas              #+#    #+#             */
-/*   Updated: 2025/10/09 14:38:43 by marvin           ###   ########.fr       */
+/*   Updated: 2025/10/15 11:19:53 by ttas             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static void	lst_to_char(t_parse *parse, t_map *lst)
 
 	tmp = lst;
 	line = lstmap_size(tmp);
-	parse->floodfill = malloc(sizeof(char *) * (line + 1)); 
+	parse->floodfill = malloc(sizeof(char *) * (line + 1));
 	parse->map = malloc(sizeof(char *) * (line + 1));
 	if (!parse->floodfill || !parse->map)
 		error_message(ERROR_MEMORY, "Malloc failed");
@@ -32,8 +32,8 @@ static void	lst_to_char(t_parse *parse, t_map *lst)
 		line++;
 		tmp = tmp->next;
 	}
-	parse->floodfill[line] = '\0';
-	parse->map[line] = '\0';
+	parse->floodfill[line] = NULL;
+	parse->map[line] = NULL;
 }
 
 int	parse_map(t_parse *parse)
@@ -61,9 +61,9 @@ int	parse_map(t_parse *parse)
 	close(parse->fd_map);
 	lst_to_char(parse, tmp);
 	free_lst(lst_map);
-	// floodfill(parse, 6, 3);
 	return (0);
 }
+// floodfill(parse, 6, 3);
 // while (tmp)
 // {
 // 	printf("line %d: %s", tmp->line, tmp->map);
