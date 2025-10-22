@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: marvin <marvin@student.42.fr>              +#+  +:+       +#+         #
+#    By: ttas <ttas@student.42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/08/19 10:05:01 by ttas              #+#    #+#              #
-#    Updated: 2025/10/09 14:29:49 by marvin           ###   ########.fr        #
+#    Updated: 2025/10/21 09:33:14 by ttas             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,8 +17,8 @@ EXE = cub3d
 SRC =				./srcs/main.c
 					
 SRC_PARSER =		./srcs/parse/args.c \
+					./srcs/parse/parser.c \
 					./srcs/parse/texture.c \
-					./srcs/parse/texture2.c \
 					./srcs/parse/color.c \
 					./srcs/parse/map.c \
 					./srcs/parse/floodfill.c \

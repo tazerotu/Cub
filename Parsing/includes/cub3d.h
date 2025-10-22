@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ttas <ttas@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 08:56:23 by ttas              #+#    #+#             */
-/*   Updated: 2025/10/09 14:33:04 by marvin           ###   ########.fr       */
+/*   Updated: 2025/10/21 09:14:33 by ttas             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,8 @@ typedef struct s_parse
 	t_map		*lst_map;
 	t_pos		pos_player;
 	int			color[2][3];	// [0] = floor, [1] = ceiling
+	int			nb_textures;
+	int			nb_colors;
 }	t_parse;
 
 typedef struct s_tex_parse
@@ -95,18 +97,21 @@ void	find_player_pos(t_parse *parse);
 void	floodfill_check_closed(t_parse *parse, int x, int y);
 
 // Parse
+t_parse	*parser(t_parse *parse);
 t_parse	*parse_args(int argc, char **argv, t_parse *parse);
-int		parse_texture(t_parse *parse);
-int		parse_color(t_parse *parse);
-int		parse_map(t_parse *parse);
+t_parse	*parse_texture_line(t_parse *parse, char *line);
+t_parse	*parse_color_line(t_parse *parse, char *line);
+// int		parse_texture(t_parse *parse);
+// int		parse_color(t_parse *parse);
+int		parse_map(t_parse *parse, char *line);
 void	floodfill(t_parse *parse, int x, int y);
 
 // Parse Utils
 	// Texture
-void	texture_read_line(t_parse *parse, char **paths,
-			char *line);
-int		texture_path(char *line);
-void	check_remaining_lines(char **buffer, int fd);
+// void	texture_read_line(t_parse *parse, char **paths,
+// 			char *line);
+// int		texture_path(char *line);
+// void	check_remaining_lines(char **buffer, int fd);
 
 	// Color
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   map.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ttas <ttas@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 09:37:41 by ttas              #+#    #+#             */
-/*   Updated: 2025/10/15 11:19:53 by ttas             ###   ########.fr       */
+/*   Updated: 2025/10/20 20:55:19 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,16 +36,13 @@ static void	lst_to_char(t_parse *parse, t_map *lst)
 	parse->map[line] = NULL;
 }
 
-int	parse_map(t_parse *parse)
+int	parse_map(t_parse *parse, char *line)
 {
 	t_map	*lst_map;
 	t_map	*tmp;
-	char	*line;
 	int		i;
 
 	i = 0;
-	lst_map = NULL;
-	line = get_next_line(parse->fd_map);
 	if (!line)
 		error_message(ERROR_MAP, "Empty map");
 	while (line)

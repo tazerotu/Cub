@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 09:48:20 by ttas              #+#    #+#             */
-/*   Updated: 2025/09/08 14:47:32 by marvin           ###   ########.fr       */
+/*   Updated: 2025/10/20 21:10:56 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,5 +22,7 @@ t_parse	*init_parse(t_parse *parse)
 	parse->color[1][0] = -1;
 	parse->color[1][1] = -1;
 	parse->color[1][2] = -1;
+	parse->nb_textures = 0;
+	parse->nb_colors = 0;
 	return (parse);
 }
