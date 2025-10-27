@@ -6,7 +6,7 @@
 /*   By: ttas <ttas@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/09 14:31:34 by marvin            #+#    #+#             */
-/*   Updated: 2025/10/15 11:25:47 by ttas             ###   ########.fr       */
+/*   Updated: 2025/10/27 11:11:44 by ttas             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,14 @@
 int	is_player_char(char c)
 {
 	return (c == 'N' || c == 'S' || c == 'E' || c == 'W');
+}
+
+int	is_invalid_char(char c)
+{
+	if (!(c == '1' || c == '0' || c == 'F' || is_player_char(c)))
+		return (1);
+	else
+		return (0);
 }
 
 t_parse	*set_player_pos(t_parse *parse, int x, int y, char dir)
@@ -56,7 +64,8 @@ void	find_player_pos(t_parse *parse)
 void	floodfill_check_closed(t_parse *parse, int x, int y)
 {
 	if (x < 0 || y < 0 || !parse->floodfill[y]
-		|| x >= (int)ft_strlen(parse->floodfill[y]))
+		|| x >= (int)ft_strlen(parse->floodfill[y])
+		|| is_invalid_char(parse->floodfill[y][x]) == 1)
 		error_message(ERROR_CLOSED, "Map not closed (out of bounds)");
 	if (parse->floodfill[y][x] == '1' || parse->floodfill[y][x] == 'F')
 		return ;

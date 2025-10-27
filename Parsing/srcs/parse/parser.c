@@ -6,7 +6,7 @@
 /*   By: ttas <ttas@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/15 11:05:10 by ttas              #+#    #+#             */
-/*   Updated: 2025/10/21 09:15:22 by ttas             ###   ########.fr       */
+/*   Updated: 2025/10/27 10:28:57 by ttas             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,9 +43,9 @@ int	is_map_start(char *line)
 
 void	parsing_error(t_parse *parse)
 {
-	if (parse->nb_textures < 4)
+	if (parse->nb_textures != 4)
 		error_message(ERROR_IDENTIFIER, "Missing texture identifier");
-	if (parse->nb_colors < 2)
+	if (parse->nb_colors != 2)
 		error_message(ERROR_IDENTIFIER, "Missing color identifier");
 	error_message(ERROR_MAP, "Invalid map format");
 }
@@ -73,7 +73,7 @@ t_parse	*parser(t_parse *parse)
 		free(line);
 		line = get_next_line(parse->fd_map);
 	}
-	if (!line || !(parse->nb_textures == 4 || parse->nb_colors == 2))
+	if (!line || parse->nb_textures != 4 || parse->nb_colors != 2)
 		parsing_error(parse);
 	parse_map(parse, line);
 	return (parse);

@@ -6,7 +6,7 @@
 /*   By: ttas <ttas@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 09:37:39 by ttas              #+#    #+#             */
-/*   Updated: 2025/10/21 09:31:26 by ttas             ###   ########.fr       */
+/*   Updated: 2025/10/27 10:25:07 by ttas             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@ t_parse	*parse_color_line(t_parse *parse, char *line)
 	parse->color[type][0] = parse_component(&ptr);
 	parse->color[type][1] = parse_component(&ptr);
 	parse->color[type][2] = parse_component(&ptr);
+	parse->nb_colors++;
 	return (parse);
 }
 
