@@ -6,7 +6,7 @@
 #    By: ttas <ttas@student.42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/08/19 10:05:01 by ttas              #+#    #+#              #
-#    Updated: 2025/10/21 09:33:14 by ttas             ###   ########.fr        #
+#    Updated: 2025/10/27 12:56:48 by ttas             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,9 @@
 EXE = cub3d
 
 # Files
-SRC =				./srcs/main.c
+SRC =				../Raycasting/cub.c
+# SRC =				./srcs/main.c
+
 					
 SRC_PARSER =		./srcs/parse/args.c \
 					./srcs/parse/parser.c \
@@ -34,6 +36,7 @@ SRC_UTILS =			./srcs/utils/utils.c \
 
 SOURCES =		${SRC} ${SRC_PARSER} ${SRC_SETUP} ${SRC_ERROR} ${SRC_UTILS}
 LIBFT = ./includes/libft
+MLXDIR = ../Raycasting/minilibx-linux
 
 OBJDIR = obj
 
@@ -43,7 +46,8 @@ OBJECTS = $(patsubst ./srcs/%, $(OBJDIR)/srcs/%, $(SOURCES:.c=.o))
 # Variables
 CC = cc
 #
-CFLAGS = -Wall -Werror -Wextra -Includes -fsanitize=address,leak -g
+CFLAGS = -Wall -Wextra -Werror -Iincludes -fsanitize=address,leak -g
+LDFLAGS = -L$(MLXDIR) -lmlx -lXext -lX11 -lm
 RM = rm -f
 
 # Pattern rule for object files in obj/ directory
@@ -55,7 +59,7 @@ all:		${EXE}
 
 ${EXE}:		${OBJECTS} 
 		@${MAKE} --silent -C ${LIBFT}
-		@${CC} ${CFLAGS} ${OBJECTS} ${LIBFT}/libft.a -o ${EXE}
+		@${CC} ${CFLAGS} ${OBJECTS} ${LIBFT}/libft.a $(LDFLAGS) -o ${EXE}
 		@${MAKE} --silent -C ${LIBFT} clean
 	
 ac: all clean

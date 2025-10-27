@@ -4,16 +4,15 @@
 #include <fcntl.h>
 #include <unistd.h>
 #include <string.h>
-#include "minilibx-linux/mlx.h"
+#include "./minilibx-linux/mlx.h"
+#include "../Parsing/includes/cub3d.h"
 
 #define WIN_WIDTH 800
 #define WIN_HEIGHT 600
-#define MAP_WIDTH 8
-#define MAP_HEIGHT 8
 #define TILE_SIZE 64
 #define FOV (60 * M_PI / 180.0)
 
-#define MOVE_SPEED 5
+#define MOVE_SPEED 10
 #define ROT_SPEED 0.05
 
 #define KEY_ESC 65307
@@ -21,32 +20,6 @@
 #define KEY_S 115
 #define KEY_A 97
 #define KEY_D 100
-
-
-
-
-typedef struct s_player {
-    double x, y;
-    double angle;
-} t_player;
-
-typedef struct s_game {
-    void *mlx;
-    void *win;
-    t_player player;
-    int map[MAP_HEIGHT][MAP_WIDTH];
-} t_game;
-
-int world_map[MAP_HEIGHT][MAP_WIDTH] = {
-    {1,1,1,1,1,1,1,1},
-    {1,0,0,0,0,0,0,1},
-    {1,0,1,0,1,0,0,1},
-    {1,0,0,0,0,0,0,1},
-    {1,0,1,0,1,0,0,1},
-    {1,0,0,0,0,0,0,1},
-    {1,0,0,0,0,0,0,1},
-    {1,1,1,1,1,1,1,1}
-};
 
 int is_wall(t_game *g, double x, double y)
 {
@@ -57,13 +30,7 @@ int is_wall(t_game *g, double x, double y)
     return g->map[mapY][mapX];
 }
 
-void my_pixel_put(void *img, int line_len, int bpp, char *addr, int x, int y, int color)
-{
-    if (x < 0 || x >= WIN_WIDTH || y < 0 || y >= WIN_HEIGHT)
-        return;
-    char *dst = addr + (y * line_len + x * (bpp / 8));
-    *(unsigned int *)dst = color;
-}
+
 
 int render(t_game *g)
 {
@@ -76,7 +43,7 @@ int render(t_game *g)
     {
         int color = (y < WIN_HEIGHT / 2) ? 0x87CEEB : 0x222222;
         for (int x = 0; x < WIN_WIDTH; x++)
-            my_pixel_put(img, line_len, bpp, addr, x, y, color);
+            my_pixel_put(line_len, bpp, addr, x, y, color);
     }
 
     for (int x = 0; x < WIN_WIDTH; x++)
@@ -140,41 +107,78 @@ int render(t_game *g)
         int drawEnd = lineHeight / 2 + WIN_HEIGHT / 2;
         if (drawEnd >= WIN_HEIGHT) drawEnd = WIN_HEIGHT - 1;
 
-        int color = (side == 1) ? 0xAAAAAA : 0xFFFFFF;
+        //int color = (side == 1) ? 0xAAAAAA : 0xFFFFFF;
+        int color;
+        if (side == 1)
+            color = (g->color[0][0] << 16) | (g->color[0][1] << 8) | g->color[0][2];
+        else
+            color = (g->color[1][0] << 16) | (g->color[1][1] << 8) | g->color[1][2];
 
         for (int y = drawStart; y < drawEnd; y++)
-            my_pixel_put(img, line_len, bpp, addr, x, y, color);
+            my_pixel_put(line_len, bpp, addr, x, y, color);
     }
+
 
     mlx_put_image_to_window(g->mlx, g->win, img, 0, 0);
     mlx_destroy_image(g->mlx, img);
     return (0);
 }
 
+void my_pixel_put(int line_len, int bpp, char *addr, int x, int y, int color)
+{
+    if (x < 0 || x >= WIN_WIDTH || y < 0 || y >= WIN_HEIGHT)
+        return;
+    char *dst = addr + (y * line_len + x * (bpp / 8));
+    *(unsigned int *)dst = color;
+}
+
 int handle_key(int key, t_game *g)
 {
     if (key == KEY_ESC)
         exit(0);
-    if (key == KEY_W) {
-        double nx = g->player.x + cos(g->player.angle) * MOVE_SPEED;
-        double ny = g->player.y + sin(g->player.angle) * MOVE_SPEED;
-        if (!is_wall(g, nx, ny)) {
+    if (key == KEY_W)
+    {
+        double nx = g->player.x - cos(g->player.angle) * MOVE_SPEED;
+        double ny = g->player.y - sin(g->player.angle) * MOVE_SPEED;
+        if (!is_wall(g, nx, ny))
+        {
             g->player.x = nx;
             g->player.y = ny;
         }
     }
-    if (key == KEY_S) {
-        printf("sss : %d", KEY_S);
+    if (key == KEY_S)
+    {
         double nx = g->player.x + cos(g->player.angle) * MOVE_SPEED;
-        double ny = g->player.y - sin(g->player.angle) * MOVE_SPEED;
-        if (!is_wall(g, nx, ny)) {
+        double ny = g->player.y + sin(g->player.angle) * MOVE_SPEED;
+        if (!is_wall(g, nx, ny))
+        {
+            g->player.x = nx;
+            g->player.y = ny;
+        }
+    }
+    if (key == KEY_D)
+    {
+        double nx = g->player.x - sin(g->player.angle) * MOVE_SPEED;
+        double ny = g->player.y + cos(g->player.angle) * MOVE_SPEED;
+        if (!is_wall(g, nx, ny))
+        {
             g->player.x = nx;
             g->player.y = ny;
         }
     }
     if (key == KEY_A)
+       {
+        double nx = g->player.x + sin(g->player.angle) * MOVE_SPEED;
+        double ny = g->player.y - cos(g->player.angle) * MOVE_SPEED;
+        if (!is_wall(g, nx, ny))
+        {
+            g->player.x = nx;
+            g->player.y = ny;
+        }
+    }
+    if (key == 65361)
         g->player.angle -= ROT_SPEED;
-    if (key == KEY_D)
+    if (key == 65363)
         g->player.angle += ROT_SPEED;
 
     if (g->player.angle < 0)
@@ -184,22 +188,49 @@ int handle_key(int key, t_game *g)
     return (0);
 }
 
-int main(void)
+int main(int argc, char** argv)
 {
     t_game g;
     g.mlx = mlx_init();
-    g.win = mlx_new_window(g.mlx, WIN_WIDTH, WIN_HEIGHT, "Raycaster DDA");
+    g.win = mlx_new_window(g.mlx, WIN_WIDTH, WIN_HEIGHT, "CUB3D");
 
-    for (int y = 0; y < MAP_HEIGHT; y++)
-        for (int x = 0; x < MAP_WIDTH; x++)
-            g.map[y][x] = world_map[y][x];
+    t_parse *parse;
 
-    g.player.x = 150;
-    g.player.y = 150;
-    g.player.angle = 0;
+    parse = NULL;
+    parse = init_parse(parse);
+    parse = parse_args(argc, argv, parse);
+    parser(parse);
+    find_player_pos(parse);
+    floodfill_check_closed(parse, parse->pos_player.x, parse->pos_player.y);
+
+    int x = 0;
+    int y = 0;
+    while(parse->map[x])
+    {
+        while(parse->map[x][y])
+        {
+            g.map[x][y] = parse->map[x][y] - '0';
+            y++;
+        }
+        y = 0;
+        x++;
+    }
+
+    g.color[0][0] = parse->color[0][0];
+    g.color[0][1] = parse->color[0][1];
+    g.color[0][2] = parse->color[0][2];
+    g.color[1][0] = parse->color[1][0];
+    g.color[1][1] = parse->color[1][1];
+    g.color[1][2] = parse->color[1][2];
+
+
+    g.player.x = parse->pos_player.x * 54;
+    g.player.y = parse->pos_player.y * 54;
+    g.player.angle = 160;
 
     mlx_hook(g.win, 2, 1L << 0, handle_key, &g);
     mlx_loop_hook(g.mlx, render, &g);
     mlx_loop(g.mlx);
+    free_parse(parse);
     return (0);
-}
+ }

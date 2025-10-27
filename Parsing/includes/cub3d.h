@@ -30,6 +30,9 @@
 # define ERROR_CHARACTER -1042
 # define ERROR_MAP -1043
 
+# define MAP_WIDTH 80
+# define MAP_HEIGHT 80
+
 // Struct
 typedef struct s_texture
 {
@@ -75,6 +78,23 @@ typedef struct s_tex_parse
 	int			i;
 }	t_tex_parse;
 
+
+
+typedef struct s_player
+{
+    double x, y;
+    double angle;
+} t_player;
+
+typedef struct s_game
+{
+    void *mlx;
+    void *win;
+    int color[2][3];    // [0] = floor, [1] = ceiling
+    t_player player;
+    int map[MAP_HEIGHT][MAP_WIDTH];
+} t_game;
+
 // Functions
 
 // Setup
@@ -114,5 +134,12 @@ void	floodfill(t_parse *parse, int x, int y);
 // void	check_remaining_lines(char **buffer, int fd);
 
 	// Color
+
+//Raycasting
+int is_wall(t_game *g, double x, double y);
+void my_pixel_put(int line_len, int bpp, char *addr, int x, int y, int color);
+int render(t_game *g);
+int handle_key(int key, t_game *g);
+
 
 #endif
